@@ -47,7 +47,8 @@ def grade_resume(pdf_path):
 
 @app.post("/grade-resume")
 async def grade_resume_endpoint(file: UploadFile = File(...)):
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+    ext = os.path.splitext(file.filename)[1]
+    with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as tmp:
         contents = await file.read()
         tmp.write(contents)
         tmp_path = tmp.name

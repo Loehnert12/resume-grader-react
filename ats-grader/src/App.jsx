@@ -60,7 +60,7 @@ function App() {
     <div className="container">
       <h1>ATS Resume Grader</h1>
       <div className="upload-section">
-        <input type="file" onChange={(e) => setFile(e.target.files[0])} accept=".pdf"/>
+        <input type="file" onChange={(e) => setFile(e.target.files[0])} accept=".pdf,.doc,.docx"/>
         <button onClick={handleSubmit} disabled={isLoading}>Submit</button>
       </div>
       <div>
