@@ -23,7 +23,20 @@ app.add_middleware(
 )
 
 def grade_resume(pdf_path):
-    uploaded_file = client.files.upload(file=pdf_path)
+    ext = os.path.splitext(pdf_path)[1].lower()
+    
+    mime_types = {
+        ".pdf": "application/pdf",
+        ".doc": "application/msword",
+        ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    }
+    
+    mime_type = mime_types.get(ext, "application/pdf")
+    
+    uploaded_file = client.files.upload(
+        file=pdf_path,
+        config={"mime_type": mime_type}
+    )
 
     prompt = """
     You are an expert ATS (Applicant Tracking System) resume grader.
@@ -39,7 +52,7 @@ def grade_resume(pdf_path):
     """
 
     response = client.models.generate_content(
-        model="gemini-3.5-flash",
+        model="gemini-2.0-flash",
         contents=[uploaded_file, prompt]
     )
 
